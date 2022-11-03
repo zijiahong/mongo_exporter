@@ -1,0 +1,27 @@
+version: '3.1'
+services:
+  mongod:
+    image: mongo:6.0.1
+    restart: always
+    ulimits:
+      nproc: 64000 # 进程/线程数
+      memlock: # 内存大小
+        soft: -1
+        hard: -1
+      nofile: # 打开文件
+        soft: 64000
+        hard: 64000
+    user: '1000'
+    ports:
+     - 3810:27017
+    volumes:
+     - .//data/db:/data/db
+     - ./mongo.conf:/etc/mongo.conf
+     - ./mongo.key:/etc/mongo/mongo.key
+     - /usr/share/zoneinfo:/usr/share/zoneinfo
+     - ./run.sh:/data/run.sh 
+    command: bash /data/run.sh
+networks:
+  default:
+    external:
+      name: mongo_cluster

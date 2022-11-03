@@ -1,0 +1,27 @@
+global:
+  scrape_interval:     5s
+  evaluation_interval: 5s
+  external_labels:
+      monitor: 'dashboard'
+
+alerting:
+ alertmanagers:
+ - static_configs:
+    - targets:
+        - "192.168.88.26:9093"
+
+rule_files:
+  - /etc/prometheus/rules/*.rules
+
+scrape_configs:  
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.88.26:9090']
+
+  - job_name: 'mongo-exporter'
+    static_configs:
+      - targets: ['192.168.88.26:9216','192.168.88.26:9017']
+        labels:
+          istance: mongodb
+

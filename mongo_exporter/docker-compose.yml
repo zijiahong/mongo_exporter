@@ -1,0 +1,8 @@
+version: "3.0"
+services:
+  mongo_exporter:
+    image: percona/mongodb_exporter:0.35
+    ports:
+      - 9216:9216
+      - 17001:17001
+    command:  --mongodb.uri=mongodb://prometheus:prometheus@localhost:3810 --collector.diagnosticdata --collector.replicasetstatus --collector.dbstats  --collector.topmetrics --collector.indexstats --metrics.overridedescendingindex  --discovering-mode --compatible-mode
